@@ -1,0 +1,11 @@
+category: Graphics
+requires: libavcodec52 libavformat52 libavutil49 libgcc1 libglib2.0_0 libgtk2.0_0 libjasper1 libjpeg7 liblapack0 libpng12 libstdc++6 libswscale0 libtiff5 zlib0
+external-source: opencv
+sdesc: "Real time computer vision library (runtime)"
+ldesc: "OpenCV (Open Source Computer Vision) is a library of programming 
+functions for real time computer vision. Example applications of the 
+OpenCV library are Human-Computer Interaction (HCI); Object 
+Identification, Segmentation and Recognition; Face Recognition; Gesture 
+Recognition; Camera and Motion Tracking, Ego Motion, Motion 
+Understanding; Structure From Motion (SFM); Stereo and Multi-Camera 
+Calibration and Depth Computation; Mobile Robotics."

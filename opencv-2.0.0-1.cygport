@@ -1,0 +1,39 @@
+ORIG_PN="OpenCV"
+inherit python cmake
+
+DESCRIPTION="Real-time computer vision library"
+HOMEPAGE="http://opencv.willowgarage.com/"
+SRC_URI="mirror://sourceforge/opencvlibrary/${ORIG_PN}-${PV}.tar.bz2"
+PATCH_URI="
+	2.0.0-cflags.patch
+	2.0.0-cmake-python.patch
+	2.0.0-ctype_h.patch
+	2.0.0-system-libs.patch
+"
+
+PKG_NAMES="${PN} libcv2.0 libcv-devel python-cv"
+libcv2_0_CONTENTS="usr/bin/*-2.0.dll usr/share/doc/"
+libcv_devel_CONTENTS="--exclude=${PYTHON_LIB#/} usr/bin/*.exe usr/include/ usr/lib/ usr/share/opencv/"
+python_cv_CONTENTS=${PYTHON_SITELIB#/}
+
+# Is there really a need to use THREE different multimedia frameworks?
+#   FFmpeg: used for file decoding and encoding
+#   GStreamer: used for 1394/v4l video capture
+#   Xine: used for file decoding
+# Therefore we use just FFmpeg (which is also the default in autotools)
+CYGCMAKE_ARGS="
+	-DBUILD_NEW_PYTHON_SUPPORT=ON
+	-DENABLE_OPENMP=OFF
+	-DWITH_1394=OFF
+	-DWITH_FFMPEG=ON
+	-DWITH_GSTREAMER=OFF
+	-DWITH_UNICAP=OFF
+	-DWITH_V4L=OFF
+	-DWITH_XINE=OFF
+"
+
+src_test() {
+	cd ${B}/bin
+	./cxcoretest || true
+	./cvtest || true
+}
