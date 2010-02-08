@@ -8,6 +8,7 @@ PATCH_URI="
 	2.0.0-cflags.patch
 	2.0.0-cmake-python.patch
 	2.0.0-ctype_h.patch
+	2.0.0-install-cvconfig.h.patch
 	2.0.0-system-libs.patch
 "
 
