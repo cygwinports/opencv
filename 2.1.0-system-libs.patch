@@ -1,0 +1,53 @@
+--- origsrc/OpenCV-2.1.0/3rdparty/CMakeLists.txt	2010-04-05 20:24:34.000000000 -0500
++++ src/OpenCV-2.1.0/3rdparty/CMakeLists.txt	2010-05-26 22:21:36.646653400 -0500
+@@ -1,6 +1,10 @@
+ add_subdirectory(flann)
+-add_subdirectory(lapack)
+-add_subdirectory(zlib)
++if(NOT LAPACK_FOUND)
++	add_subdirectory(lapack)
++endif()
++if(NOT ZLIB_FOUND)
++	add_subdirectory(zlib)
++endif()
+ if(WITH_JASPER AND NOT JASPER_FOUND)
+ 	add_subdirectory(libjasper)
+ endif()
+--- origsrc/OpenCV-2.1.0/CMakeLists.txt	2010-05-26 22:21:34.937555600 -0500
++++ src/OpenCV-2.1.0/CMakeLists.txt	2010-05-26 22:52:51.435885200 -0500
+@@ -36,7 +36,7 @@ set(CMAKE_MODULE_LINKER_FLAGS_RELWITHDEB
+ set(CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL "" CACHE INTERNAL "" FORCE)
+ set(CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO "" CACHE INTERNAL "" FORCE)
+ 
+-project(OpenCV)
++project(OpenCV C CXX Fortran)
+ 
+ cmake_minimum_required(VERSION 2.4)
+ 
+@@ -436,6 +436,8 @@ if(UNIX)
+             else()
+                 set(JPEG_FOUND FALSE)
+             endif()
++            include(FindLAPACK)
++            include(FindZLIB)
+         endif()
+         
+         if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+--- origsrc/OpenCV-2.1.0/src/cxcore/CMakeLists.txt	2010-04-05 20:24:44.000000000 -0500
++++ src/OpenCV-2.1.0/src/cxcore/CMakeLists.txt	2010-05-26 22:23:01.285494400 -0500
+@@ -53,7 +53,14 @@ set_target_properties(${the_target} PROP
+     )
+ 
+ # Add the required libraries for linking:
+-target_link_libraries(${the_target} ${OPENCV_LINKER_LIBS} ${IPP_LIBS} opencv_lapack zlib flann)
++target_link_libraries(${the_target} ${OPENCV_LINKER_LIBS} ${IPP_LIBS} ${LAPACK_LIBRARIES} ${ZLIB_LIBRARIES} flann)
++
++if(NOT LAPACK_FOUND)
++    target_link_libraries(${the_target} opencv_lapack)
++endif()
++if(NOT ZLIB_FOUND)
++    target_link_libraries(${the_target} zlib)
++endif()
+ 
+ # Linker flag needed for Windows Mobile 5 and 6 SDKs
+ if(MSVC)

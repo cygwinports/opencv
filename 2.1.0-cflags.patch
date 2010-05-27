@@ -1,0 +1,22 @@
+--- origsrc/OpenCV-2.1.0/CMakeLists.txt	2010-04-05 20:24:37.000000000 -0500
++++ src/OpenCV-2.1.0/CMakeLists.txt	2010-05-26 22:06:01.899188900 -0500
+@@ -749,7 +749,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
+     endif()
+ 
+     # We need pthread's
+-    if(UNIX)
++    if(UNIX AND NOT CYGWIN)
+         set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} -pthread")
+     endif()
+ 
+--- origsrc/OpenCV-2.1.0/OpenCVPCHSupport.cmake	2010-04-05 20:24:41.000000000 -0500
++++ src/OpenCV-2.1.0/OpenCVPCHSupport.cmake	2010-05-26 22:06:27.939678300 -0500
+@@ -48,7 +48,7 @@ MACRO(_PCH_GET_COMPILE_FLAGS _out_compil
+   IF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+     GET_TARGET_PROPERTY(_targetType ${_PCH_current_target} TYPE)
+-    IF(${_targetType} STREQUAL SHARED_LIBRARY AND NOT WIN32)
++    IF(${_targetType} STREQUAL SHARED_LIBRARY AND NOT WIN32 AND NOT CYGWIN)
+     	LIST(APPEND ${_out_compile_flags} "${${_out_compile_flags}} -fPIC")
+     ENDIF()
+ 

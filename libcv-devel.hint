@@ -1,5 +1,5 @@
 category: Graphics
-requires: libcv2.0 libgcc1 libstdc++6
+requires: libcv2.1 libgcc1 libstdc++6
 external-source: opencv
 sdesc: "Real time computer vision library (development)"
 ldesc: "OpenCV (Open Source Computer Vision) is a library of programming 

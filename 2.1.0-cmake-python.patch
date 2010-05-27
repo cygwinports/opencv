@@ -1,0 +1,18 @@
+--- origsrc/OpenCV-2.1.0/interfaces/python/CMakeLists.txt	2010-04-05 20:24:40.000000000 -0500
++++ src/OpenCV-2.1.0/interfaces/python/CMakeLists.txt	2010-05-26 23:15:35.129884000 -0500
+@@ -22,7 +22,7 @@ add_custom_command(
+    )
+ 
+ set(the_target "cvpy")
+-add_library(${the_target} ${lib_srcs} ${lib_hdrs} ${lib_int_hdrs} ${CMAKE_CURRENT_BINARY_DIR}/generated0.i)
++add_library(${the_target} MODULE ${lib_srcs} ${lib_hdrs} ${lib_int_hdrs} ${CMAKE_CURRENT_BINARY_DIR}/generated0.i)
+ target_link_libraries(${the_target} ${PYTHON_LIBRARIES} cxcore cv cvaux highgui)
+ set_target_properties(${the_target} PROPERTIES PREFIX "")
+ set_target_properties(${the_target} PROPERTIES OUTPUT_NAME "cv")
+@@ -43,5 +43,5 @@ if(WIN32)
+             ARCHIVE DESTINATION "Python${PYTHON_VERSION_MAJOR_MINOR}/Lib/site-packages" COMPONENT main
+             )
+ else()
+-    install(FILES ${LIBRARY_OUTPUT_PATH}/cv.so DESTINATION ${PYTHON_PACKAGES_PATH})
++    install(TARGETS ${the_target} DESTINATION ${PYTHON_PACKAGES_PATH})
+ endif()
