@@ -10,6 +10,8 @@ PATCH_URI="
 	2.1.0-cvaux-compile.patch
 	2.0.0-install-cvconfig.h.patch
 	2.1.0-system-libs.patch
+	2.1.0-gcc45.patch
+	2.1.0-libpng14.patch
 "
 
 PKG_NAMES="${PN} libcv2.1 libcv-devel python-cv"

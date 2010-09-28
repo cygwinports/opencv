@@ -1,5 +1,5 @@
 category: Graphics
-requires: libavcodec52 libavformat52 libavutil50 libgcc1 libglib2.0_0 libgtk2.0_0 libjasper1 libjpeg7 liblapack0 libpng12 libstdc++6 libswscale0 libtiff5 zlib0
+requires: libavcodec52 libavformat52 libavutil50 libgcc1 libglib2.0_0 libgtk2.0_0 libjasper1 libjpeg8 liblapack0 libpng14 libstdc++6 libswscale0 libtiff5 zlib0
 external-source: opencv
 sdesc: "Real time computer vision library (runtime)"
 ldesc: "OpenCV (Open Source Computer Vision) is a library of programming 
