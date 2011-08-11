@@ -1,5 +1,5 @@
 category: Graphics Python
-requires: libcv2.1 libgcc1 libstdc++6 python
+requires: libopencv2.3 libgcc1 libstdc++6 python python-numpy
 external-source: opencv
 sdesc: "Real time computer vision library (Python bindings)"
 ldesc: "OpenCV (Open Source Computer Vision) is a library of programming 

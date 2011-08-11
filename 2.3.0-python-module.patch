@@ -1,0 +1,20 @@
+--- origsrc/OpenCV-2.3.0/modules/python/CMakeLists.txt	2011-07-03 23:21:59.000000000 -0500
++++ src/OpenCV-2.3.0/modules/python/CMakeLists.txt	2011-08-10 22:18:20.544900000 -0500
+@@ -47,7 +47,7 @@ add_custom_command(
+ 
+ 
+ set(cv_target "opencv_python")
+-add_library(${cv_target} SHARED src1/cv.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated0.i)
++add_library(${cv_target} MODULE src1/cv.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated0.i)
+ target_link_libraries(${cv_target} ${PYTHON_LIBRARIES} opencv_core opencv_imgproc opencv_video opencv_ml opencv_features2d opencv_highgui opencv_calib3d opencv_objdetect opencv_legacy opencv_contrib)
+     
+ set_target_properties(${cv_target} PROPERTIES PREFIX "")
+@@ -83,7 +83,7 @@ add_custom_command(
+       DEPENDS ${opencv_hdrs})
+ 
+ set(cv2_target "opencv2_python")
+-add_library(${cv2_target} SHARED src2/cv2.cpp src2/opencv_extra_api.hpp ${cv2_generated_hdrs})
++add_library(${cv2_target} MODULE src2/cv2.cpp src2/opencv_extra_api.hpp ${cv2_generated_hdrs})
+ target_link_libraries(${cv2_target} ${PYTHON_LIBRARIES} opencv_core opencv_imgproc opencv_video opencv_ml opencv_features2d opencv_highgui opencv_calib3d opencv_objdetect opencv_legacy opencv_contrib)
+ 
+ set_target_properties(${cv2_target} PROPERTIES PREFIX "")
