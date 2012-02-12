@@ -1,0 +1,11 @@
+--- origsrc/OpenCV-2.3.1/OpenCVPCHSupport.cmake	2011-09-12 13:45:38.000000000 -0500
++++ src/OpenCV-2.3.1/OpenCVPCHSupport.cmake	2011-10-02 01:13:19.039689400 -0500
+@@ -40,7 +40,7 @@ MACRO(_PCH_GET_COMPILE_FLAGS _out_compil
+     IF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+         GET_TARGET_PROPERTY(_targetType ${_PCH_current_target} TYPE)
+-        IF(${_targetType} STREQUAL SHARED_LIBRARY AND NOT WIN32)
++        IF(${_targetType} STREQUAL SHARED_LIBRARY AND NOT WIN32 AND NOT CYGWIN)
+             LIST(APPEND ${_out_compile_flags} "-fPIC")
+         ENDIF()
+ 

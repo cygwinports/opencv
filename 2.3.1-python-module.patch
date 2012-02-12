@@ -1,0 +1,11 @@
+--- origsrc/OpenCV-2.3.1/modules/python/CMakeLists.txt	2011-09-12 13:40:30.000000000 -0500
++++ src/OpenCV-2.3.1/modules/python/CMakeLists.txt	2011-10-02 01:12:31.406965000 -0500
+@@ -61,7 +61,7 @@ add_custom_command(
+      DEPENDS ${opencv_hdrs})
+ 
+ set(cv2_target "opencv_python")
+-add_library(${cv2_target} SHARED src2/cv2.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated0.i ${cv2_generated_hdrs} src2/cv2.cv.hpp)
++add_library(${cv2_target} MODULE src2/cv2.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated0.i ${cv2_generated_hdrs} src2/cv2.cv.hpp)
+ target_link_libraries(${cv2_target} ${PYTHON_LIBRARIES} opencv_core opencv_flann opencv_imgproc opencv_video opencv_ml opencv_features2d opencv_highgui opencv_calib3d opencv_objdetect opencv_legacy opencv_contrib)
+     
+ set_target_properties(${cv2_target} PROPERTIES PREFIX "")

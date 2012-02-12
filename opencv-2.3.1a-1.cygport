@@ -1,18 +1,19 @@
-ORIG_PN="OpenCV"
 inherit python cmake
 
 DESCRIPTION="Real-time computer vision library"
 HOMEPAGE="http://opencv.willowgarage.com/"
-SRC_URI="mirror://sourceforge/opencvlibrary/${ORIG_PN}-${PV}.tar.bz2"
+SRC_URI="mirror://sourceforge/opencvlibrary/OpenCV-${PV}.tar.bz2"
+SRC_DIR="OpenCV-${PV%[a-z]}"
+
 PATCH_URI="
-	2.3.0-cygwin.patch
-	2.3.0-python-module.patch
+	2.3.1-python-module.patch
 	2.3.0-compile.patch
+	2.3.1-cygwin.patch
 "
 
 PKG_NAMES="libopencv2.3 libopencv-devel python-cv"
 libopencv2_3_CONTENTS="usr/bin/*-2.3.dll usr/share/doc/"
-libopencv_devel_CONTENTS="--exclude=${PYTHON_LIB#/} usr/bin/*.exe usr/include/ usr/lib/ usr/share/opencv/"
+libopencv_devel_CONTENTS="--exclude=${PYTHON_LIB#/} usr/bin/*.exe usr/include/ usr/lib/ usr/share/OpenCV/"
 python_cv_CONTENTS=${PYTHON_SITELIB#/}
 
 # Is there really a need to use THREE different multimedia frameworks?
@@ -22,6 +23,7 @@ python_cv_CONTENTS=${PYTHON_SITELIB#/}
 # Therefore we use just FFmpeg (which is also the default in autotools)
 CYGCMAKE_ARGS="
 	-DBUILD_NEW_PYTHON_SUPPORT=ON
+	-DBUILD_TESTS=OFF
 	-DPYTHON_PACKAGES_PATH=${PYTHON_SITELIB}
 	-DWITH_1394=OFF
 	-DWITH_FFMPEG=ON
@@ -37,4 +39,10 @@ src_test() {
 	do
 		$x || true
 	done
+}
+
+src_install() {
+	cd ${B}
+	cyginstall
+	python_optimize
 }
