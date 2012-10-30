@@ -58,4 +58,7 @@ src_install() {
 	cd ${B}
 	cyginstall
 	python_optimize
+
+	sed -e 's|${exec_prefix}/lib/cyg|-l|g;s/-[0-9]\.[0-9]\.dll//g' \
+	    -i ${D}/usr/lib/pkgconfig/opencv.pc
 }
