@@ -1,19 +1,32 @@
 inherit python cmake
 
-DESCRIPTION="Real-time computer vision library"
+NAME="opencv"
+VERSION=2.4.2
+RELEASE=1
+CATEGORY="Graphics"
+SUMMARY="Real-time computer vision library"
+DESCRIPTION="OpenCV (Open Source Computer Vision) is a library of programming
+functions for real time computer vision. Example applications of the OpenCV
+library are Human-Computer Interaction; Object Identification, Segmentation and
+Recognition; Face Recognition; Gesture Recognition; Camera and Motion Tracking,
+Ego Motion, Motion Understanding; Structure From Motion; Stereo and
+Multi-Camera Calibration and Depth Computation; Mobile Robotics."
 HOMEPAGE="http://opencv.willowgarage.com/"
 SRC_URI="mirror://sourceforge/opencvlibrary/OpenCV-${PV}.tar.bz2"
 SRC_DIR="OpenCV-${PV%[a-z]}"
 
 PATCH_URI="
 	2.3.1-python-module.patch
-	2.3.0-compile.patch
+	2.4.2-compile.patch
 	2.3.1-cygwin.patch
 "
 
-PKG_NAMES="libopencv2.3 libopencv-devel python-cv"
-libopencv2_3_CONTENTS="usr/bin/*-2.3.dll usr/share/doc/"
+PKG_NAMES="libopencv2.4 libopencv-devel python-cv"
+libopencv2_4_SUMMARY="${SUMMARY} (runtime)"
+libopencv2_4_CONTENTS="usr/bin/*-2.4.dll usr/share/doc/"
+libopencv_devel_SUMMARY="${SUMMARY} (development)"
 libopencv_devel_CONTENTS="--exclude=${PYTHON_LIB#/} usr/bin/*.exe usr/include/ usr/lib/ usr/share/OpenCV/"
+python_cv_SUMMARY="${SUMMARY} (Python bindings)"
 python_cv_CONTENTS=${PYTHON_SITELIB#/}
 
 # Is there really a need to use THREE different multimedia frameworks?

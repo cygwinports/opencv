@@ -1,0 +1,31 @@
+--- origsrc/OpenCV-2.4.2/apps/traincascade/imagestorage.h	2012-06-28 17:55:16.000000000 -0500
++++ src/OpenCV-2.4.2/apps/traincascade/imagestorage.h	2012-10-30 01:48:53.314631000 -0500
+@@ -1,6 +1,7 @@
+ #ifndef _OPENCV_IMAGESTORAGE_H_
+ #define _OPENCV_IMAGESTORAGE_H_
+ 
++#include <stdio.h>
+ #include "highgui.h"
+ 
+ using namespace cv;
+--- origsrc/OpenCV-2.4.2/modules/legacy/src/calibfilter.cpp	2012-06-28 17:56:08.000000000 -0500
++++ src/OpenCV-2.4.2/modules/legacy/src/calibfilter.cpp	2012-10-30 01:27:39.290850500 -0500
+@@ -42,7 +42,6 @@
+ #include "precomp.hpp"
+ #include <stdio.h>
+ 
+-#undef quad
+ 
+ CvCalibFilter::CvCalibFilter()
+ {
+--- origsrc/OpenCV-2.4.2/modules/legacy/src/epilines.cpp	2012-06-28 17:56:08.000000000 -0500
++++ src/OpenCV-2.4.2/modules/legacy/src/epilines.cpp	2012-10-30 01:38:24.441274200 -0500
+@@ -46,8 +46,6 @@
+ 
+ /* Valery Mosyagin */
+ 
+-#undef quad
+-
+ #define EPS64D 1e-9
+ 
+ int cvComputeEssentialMatrix(  CvMatr32f rotMatr,
