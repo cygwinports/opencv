@@ -2,7 +2,7 @@ inherit python cmake
 
 NAME="opencv"
 VERSION=2.4.3
-RELEASE=1
+RELEASE=2
 CATEGORY="Graphics"
 SUMMARY="Real-time computer vision library"
 DESCRIPTION="OpenCV (Open Source Computer Vision) is a library of programming
