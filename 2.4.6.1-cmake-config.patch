@@ -1,0 +1,25 @@
+--- origsrc/opencv-2.4.6.1/CMakeLists.txt	2013-07-10 06:49:00.000000000 -0500
++++ src/opencv-2.4.6.1/CMakeLists.txt	2013-09-08 05:50:01.340191700 -0500
+@@ -259,7 +259,7 @@ else()
+   set(OPENCV_INCLUDE_INSTALL_PATH include)
+ 
+   math(EXPR SIZEOF_VOID_P_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
+-  if(LIB_SUFFIX AND NOT SIZEOF_VOID_P_BITS EQUAL LIB_SUFFIX)
++  if(1) # LIB_SUFFIX AND NOT SIZEOF_VOID_P_BITS EQUAL LIB_SUFFIX)
+     set(OPENCV_CONFIG_INSTALL_PATH lib${LIB_SUFFIX}/cmake/opencv)
+   else()
+     set(OPENCV_CONFIG_INSTALL_PATH share/OpenCV)
+--- origsrc/opencv-2.4.6.1/cmake/OpenCVGenConfig.cmake	2013-07-10 06:49:00.000000000 -0500
++++ src/opencv-2.4.6.1/cmake/OpenCVGenConfig.cmake	2013-09-08 05:15:15.251874300 -0500
+@@ -66,7 +66,10 @@ macro(ocv_generate_dependencies_map_conf
+     get_target_property(__libname ${__ocv_lib} LOCATION_${configuration})
+     get_filename_component(__libname "${__libname}" NAME)
+ 
+-    if(WIN32)
++    if(CYGWIN)
++      string(REGEX REPLACE "^${CMAKE_SHARED_LIBRARY_PREFIX}" "${CMAKE_IMPORT_LIBRARY_PREFIX}" __libname "${__libname}")
++      string(REGEX REPLACE "-${OPENCV_SOVERSION}${CMAKE_SHARED_LIBRARY_SUFFIX}$" "${CMAKE_IMPORT_LIBRARY_SUFFIX}" __libname "${__libname}")
++    elseif(WIN32)
+       string(REGEX REPLACE "${CMAKE_SHARED_LIBRARY_SUFFIX}$" "${OPENCV_LINK_LIBRARY_SUFFIX}" __libname "${__libname}")
+     endif()
+ 
