@@ -1,0 +1,43 @@
+--- origsrc/opencv-2.4.7/CMakeLists.txt	2013-11-06 08:26:39.000000000 -0600
++++ src/opencv-2.4.7/CMakeLists.txt	2013-12-25 17:28:13.416750100 -0600
+@@ -287,7 +287,7 @@ else()
+   set(OPENCV_INCLUDE_INSTALL_PATH "include")
+ 
+   math(EXPR SIZEOF_VOID_P_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
+-  if(LIB_SUFFIX AND NOT SIZEOF_VOID_P_BITS EQUAL LIB_SUFFIX)
++  if(1) # LIB_SUFFIX AND NOT SIZEOF_VOID_P_BITS EQUAL LIB_SUFFIX)
+     set(OPENCV_CONFIG_INSTALL_PATH lib${LIB_SUFFIX}/cmake/opencv)
+   else()
+     set(OPENCV_CONFIG_INSTALL_PATH share/OpenCV)
+--- origsrc/opencv-2.4.7/cmake/OpenCVGenConfig.cmake	2013-11-06 08:26:39.000000000 -0600
++++ src/opencv-2.4.7/cmake/OpenCVGenConfig.cmake	2013-12-25 17:29:00.577226700 -0600
+@@ -33,13 +33,11 @@ endif()
+ 
+ 
+ 
+-if(WIN32)
+-  if(MINGW)
++  if(MINGW OR CYGWIN)
+     set(OPENCV_LINK_LIBRARY_SUFFIX ".dll.a")
+-  else()
++  elseif(WIN32)
+     set(OPENCV_LINK_LIBRARY_SUFFIX ".lib")
+   endif()
+-endif()
+ 
+ #build list of modules available for the OpenCV user
+ set(OpenCV_LIB_COMPONENTS "")
+--- origsrc/opencv-2.4.7/cmake/templates/OpenCVConfig.cmake.in	2013-11-06 08:26:39.000000000 -0600
++++ src/opencv-2.4.7/cmake/templates/OpenCVConfig.cmake.in	2013-12-25 18:09:06.770309800 -0600
+@@ -66,11 +66,7 @@ set(OpenCV_USE_MANGLED_PATHS @OpenCV_USE
+ get_filename_component(OpenCV_CONFIG_PATH "${CMAKE_CURRENT_LIST_FILE}" PATH CACHE)
+ 
+ if(NOT WIN32 OR OpenCV_ANDROID_NATIVE_API_LEVEL GREATER 0)
+-  if(OpenCV_ANDROID_NATIVE_API_LEVEL GREATER 0)
+     set(OpenCV_INSTALL_PATH "${OpenCV_CONFIG_PATH}/../../..")
+-  else()
+-    set(OpenCV_INSTALL_PATH "${OpenCV_CONFIG_PATH}/../..")
+-  endif()
+   # Get the absolute path with no ../.. relative marks, to eliminate implicit linker warnings
+   if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_LESS 2.8)
+     get_filename_component(OpenCV_INSTALL_PATH "${OpenCV_INSTALL_PATH}" ABSOLUTE)
