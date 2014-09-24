@@ -1,7 +1,7 @@
 inherit python cmake
 
 NAME="opencv"
-VERSION=2.4.7
+VERSION=2.4.9
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="Real-time computer vision library"
@@ -12,7 +12,7 @@ Recognition; Face Recognition; Gesture Recognition; Camera and Motion Tracking,
 Ego Motion, Motion Understanding; Structure From Motion; Stereo and
 Multi-Camera Calibration and Depth Computation; Mobile Robotics."
 HOMEPAGE="http://opencv.org/"
-SRC_URI="mirror://sourceforge/opencvlibrary/opencv-${VERSION}.tar.gz"
+SRC_URI="mirror://sourceforge/opencvlibrary/opencv-${VERSION}.zip"
 PATCH_URI="
 	2.3.1-python-module.patch
 	2.4.2-compile.patch
