@@ -1,7 +1,7 @@
 inherit python cmake
 
 NAME="opencv"
-VERSION=2.4.9
+VERSION=2.4.10
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="Real-time computer vision library"
@@ -14,10 +14,11 @@ Multi-Camera Calibration and Depth Computation; Mobile Robotics."
 HOMEPAGE="http://opencv.org/"
 SRC_URI="mirror://sourceforge/opencvlibrary/opencv-${VERSION}.zip"
 PATCH_URI="
+	http://pkgs.fedoraproject.org/cgit/opencv.git/plain/OpenCV-2.4.4-pillow.patch
 	2.3.1-python-module.patch
 	2.4.2-compile.patch
 	2.3.1-cygwin.patch
-	2.4.7-cmake-config.patch
+	2.4.10-cmake-config.patch
 "
 
 PKG_NAMES="libopencv2.4 libopencv-devel python-cv"
