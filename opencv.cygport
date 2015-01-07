@@ -2,7 +2,7 @@ inherit python cmake
 
 NAME="opencv"
 VERSION=2.4.10
-RELEASE=2
+RELEASE=3
 CATEGORY="Libs"
 SUMMARY="Real-time computer vision library"
 DESCRIPTION="OpenCV (Open Source Computer Vision) is a library of programming
@@ -15,6 +15,7 @@ HOMEPAGE="http://opencv.org/"
 SRC_URI="mirror://sourceforge/opencvlibrary/opencv-${VERSION}.zip"
 PATCH_URI="
 	http://pkgs.fedoraproject.org/cgit/opencv.git/plain/OpenCV-2.4.4-pillow.patch
+	http://pkgs.fedoraproject.org/cgit/opencv.git/plain/opencv-2.4.9-ts_static.patch
 	2.3.1-python-module.patch
 	2.4.2-compile.patch
 	2.3.1-cygwin.patch
