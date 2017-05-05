@@ -1,7 +1,7 @@
-inherit python cmake
+inherit python2 python3 cmake
 
 NAME="opencv"
-VERSION=2.4.11
+VERSION=3.2.0
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="Real-time computer vision library"
@@ -12,36 +12,76 @@ Recognition; Face Recognition; Gesture Recognition; Camera and Motion Tracking,
 Ego Motion, Motion Understanding; Structure From Motion; Stereo and
 Multi-Camera Calibration and Depth Computation; Mobile Robotics."
 HOMEPAGE="http://opencv.org/"
-SRC_URI="mirror://sourceforge/opencvlibrary/opencv-${VERSION}.zip"
+#SRC_URI="https://github.com/opencv/opencv/archive/${VERSION}/opencv-${VERSION}.tar.gz"
+sum1=9f7e25f2f570c08d37bc996dbf38768ab43c2312aacfd00a31c82d8a55caeb57d4039db98579032e157f64c3173bfe995d3ca53212f34e764baa54415dd93f93
+sum2=dd1abe177f22cdb9f03c063310eb61d205841a74dd9f9e9bdc96e40ce766cc25bdfebd40bb3e226834c8b4a6c8b741f3957257b2fdd95f67a980258f7cdc654b
+SRC_URI="
+	http://pkgs.fedoraproject.org/repo/pkgs/opencv/opencv-clean-${VERSION}.tar.gz/sha512/${sum1}/opencv-clean-${VERSION}.tar.gz
+	http://pkgs.fedoraproject.org/repo/pkgs/opencv/opencv_contrib-clean-${VERSION}.tar.gz/sha512/${sum2}/opencv_contrib-clean-${VERSION}.tar.gz
+"
 PATCH_URI="
-	http://pkgs.fedoraproject.org/cgit/opencv.git/plain/OpenCV-2.4.4-pillow.patch
-	http://pkgs.fedoraproject.org/cgit/opencv.git/plain/opencv-2.4.9-ts_static.patch
-	2.3.1-python-module.patch
-	2.4.2-compile.patch
-	2.3.1-cygwin.patch
-	2.4.10-cmake-config.patch
+	http://pkgs.fedoraproject.org/cgit/rpms/opencv.git/plain/opencv-3.1-pillow.patch
+	http://pkgs.fedoraproject.org/cgit/rpms/opencv.git/plain/opencv-3.2.0-test-file-fix.patch
+	3.2.0-core-cygwin.patch
+	3.2.0-freetype-no-undefined.patch
 "
 
-PKG_NAMES="libopencv2.4 libopencv-devel python-cv"
-libopencv2_4_SUMMARY="${SUMMARY} (runtime)"
-libopencv2_4_CONTENTS="usr/bin/*-2.4.dll usr/share/doc/"
+PKG_NAMES="opencv libopencv3.2 libopencv-devel python2-cv2 python3-cv2"
+opencv_CATEGORY="Graphics"
+opencv_CONTENTS="
+	usr/bin/*.exe
+	usr/share/doc/
+	usr/share/OpenCV/
+"
+libopencv3_2_SUMMARY="${SUMMARY} (runtime)"
+libopencv3_2_REQUIRES="libOpenCL1"
+libopencv3_2_CONTENTS="usr/bin/*-3.2.dll"
 libopencv_devel_SUMMARY="${SUMMARY} (development)"
-libopencv_devel_CONTENTS="--exclude=${PYTHON_LIB#/} usr/bin/*.exe usr/include/ usr/lib/ usr/share/OpenCV/"
-python_cv_SUMMARY="${SUMMARY} (Python bindings)"
-python_cv_CONTENTS=${PYTHON_SITELIB#/}
+libopencv_devel_REQUIRES=${NAME}
+libopencv_devel_CONTENTS="
+	usr/include/opencv/
+	usr/include/opencv2/
+	usr/lib/cmake/OpenCV/
+	usr/lib/libopencv*
+	usr/lib/pkgconfig/opencv.pc
+"
+python2_cv2_SUMMARY="${SUMMARY} (Python 2 bindings)"
+python2_cv2_OBSOLETES="python-cv"
+python2_cv2_REQUIRES="python2-numpy"
+python2_cv2_CONTENTS="${PYTHON2_SITELIB#/}/cv2.*"
+python3_cv2_SUMMARY="${SUMMARY} (Python 3 bindings)"
+python3_cv2_REQUIRES="python3-numpy"
+python3_cv2_CONTENTS="${PYTHON3_SITELIB#/}/cv2.*"
+
+CYGPORT_USE_UNSTABLE_API=1
+src_unpack_hook() {
+	for d in ../opencv_contrib-${VERSION}/modules/*
+	do
+		[ ! -e modules/${d##*/} ] || find modules/${d##*/} -delete
+		mv $d modules/
+	done
+}
 
 CYGCMAKE_ARGS="
-	-DBUILD_NEW_PYTHON_SUPPORT=ON
-	-DBUILD_TESTS=OFF
+	-DBUILD_PERF_TESTS=OFF
+	-DBUILD_TESTS=ON
+	-DBUILD_opencv_dnn=OFF
+	-DBUILD_opencv_java=OFF
 	-DBUILD_opencv_nonfree=OFF
-	-DPYTHON_PACKAGES_PATH=${PYTHON_SITELIB}
+	-DENABLE_PRECOMPILED_HEADERS=OFF
+	-DOPENCL_INCLUDE_DIR=/usr/include/CL
+	-DOPENCV_CONFIG_INSTALL_PATH=lib/cmake/OpenCV
+	-DOPENCV_FORCE_PYTHON_LIBS=ON
 	-DWITH_1394=OFF
+	-DWITH_CAROTENE=OFF
 	-DWITH_FFMPEG=OFF
 	-DWITH_GSTREAMER=ON
+	-DWITH_IPP=OFF
 	-DWITH_UNICAP=OFF
 	-DWITH_V4L=OFF
 	-DWITH_VFW=OFF
 	-DWITH_XINE=OFF
+	${ARCH_i686+-DENABLE_SSE=OFF -DENABLE_SSE2=OFF}
 "
 
 src_test() {
@@ -55,8 +95,7 @@ src_test() {
 src_install() {
 	cd ${B}
 	cyginstall
-	python_optimize
 
-	sed -e 's|${exec_prefix}/lib/cyg|-l|g;s/-[0-9]\.[0-9]\.dll//g' \
+	sed -e '/^Libs/s|-lcyg\([^ ]*\)-[0-9]|-l\1|g' \
 	    -i ${D}/usr/lib/pkgconfig/opencv.pc
 }
