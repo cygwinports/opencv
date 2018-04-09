@@ -1,0 +1,18 @@
+Without this, _mm_pause is not defined on x86
+
+--- origsrc/opencv-3.4.1/modules/core/include/opencv2/core/cv_cpu_dispatch.h	2018-02-23 02:38:33.000000000 -0600
++++ src/opencv-3.4.1/modules/core/include/opencv2/core/cv_cpu_dispatch.h	2018-04-08 20:59:36.118525100 -0500
+@@ -28,9 +28,12 @@
+     && !defined CV_DISABLE_OPTIMIZATION \
+     && !defined __CUDACC__ /* do not include SSE/AVX/NEON headers for NVCC compiler */ \
+ 
++#if defined(__i686__) || defined(__x86_64__)
++#  include <xmmintrin.h>
++#  define CV_MMX 1
++#endif
+ #ifdef CV_CPU_COMPILE_SSE2
+ #  include <emmintrin.h>
+-#  define CV_MMX 1
+ #  define CV_SSE 1
+ #  define CV_SSE2 1
+ #endif
