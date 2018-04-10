@@ -2,7 +2,7 @@ inherit python2 python3 cmake
 
 NAME="opencv"
 VERSION=3.4.1
-RELEASE=1
+RELEASE=2
 CATEGORY="Libs"
 SUMMARY="Real-time computer vision library"
 DESCRIPTION="OpenCV (Open Source Computer Vision) is a library of programming
@@ -96,6 +96,6 @@ src_install() {
 	cd ${B}
 	ninja_install
 
-	sed -e '/^Libs/s|-lcyg\([^ ]*\)-[0-9]|-l\1|g' \
+	sed -e '/^Libs/s|-lcyg\([^ ]*\)-[0-9\.]*\.dll|-l\1|g' \
 	    -i ${D}/usr/lib/pkgconfig/opencv.pc
 }
